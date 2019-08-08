@@ -1,0 +1,1 @@
+insert into person (first,last,dateofbirth,placeofbirth) values('Haitao','Kar', STR_TO_DATE('03/21/1992', '%m/%d/%Y'),'Shanghai');

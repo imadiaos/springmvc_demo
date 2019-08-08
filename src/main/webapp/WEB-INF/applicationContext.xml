@@ -3,4 +3,36 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+        <property name="url" value="jdbc:mysql://localhost:3306/testflyway?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8" />
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="username" value="flywaydb" />
+        <property name="password" value="123456" />
+        <property name="defaultTransactionIsolation" value="2"/>
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="5" />
+        <property name="minIdle" value="5" />
+        <property name="maxActive" value="100" />
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="10000" />
+        <!-- 配置为TRUE，防止取到的连接不可用 -->
+        <property name="testOnBorrow" value="true" />
+        <!-- 验证连接有效与否的SQL，不同的数据配置不同 -->
+        <property name="validationQuery" value="select 1 " />
+    </bean>
+
+    <bean id="flywayConfig" class="org.flywaydb.core.api.configuration.ClassicConfiguration">
+        <property name="dataSource" ref="dataSource" />
+        <property name="locations" value="classpath:db.migration"/>
+<!--        <property name="validateOnMigrate" value="true"/>-->
+        <property name="baselineOnMigrate" value="true"/>
+        <property name="outOfOrder" value="true"/>
+        <property name="encoding"  value="UTF-8"/>
+    </bean>
+
+    <!-- flayway -->
+    <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
+        <constructor-arg ref="flywayConfig"/>
+    </bean>
+
 </beans>
