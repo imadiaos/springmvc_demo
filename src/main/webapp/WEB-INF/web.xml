@@ -16,8 +16,32 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+
+    <servlet>
+        <servlet-name>superset</servlet-name>
+        <servlet-class>com.imadiaos.controller.ProxyServlet</servlet-class>
+        <init-param>
+            <param-name>targetUri</param-name>
+            <param-value>http://192.168.15.70:48088/</param-value>
+        </init-param>
+        <init-param>
+            <param-name>targetUriStatic</param-name>
+            <param-value>http://192.168.15.70:48088/charts</param-value>
+        </init-param>
+        <init-param>
+            <param-name>log</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>superset</servlet-name>
+        <url-pattern>/charts/*</url-pattern>
+    </servlet-mapping>
+
 </web-app>
